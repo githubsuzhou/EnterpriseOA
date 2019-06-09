@@ -1,0 +1,37 @@
+﻿<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--引入控制层配置文件-->
+    <import resource="spring.xml"/>
+    <!--扫描view包-->
+    <context:component-scan base-package="com.zhao.oa.controller"/>
+    <!--MVC注解驱动-->
+    <mvc:annotation-driven/>
+    <!--让servlet处理静态资源-->
+    <mvc:default-servlet-handler/>
+    <!--配置视图转换器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--按什么转换-->
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <!--配置请求页面的前缀-->
+        <property name="prefix" value="/WEB-INF/zhao/"/>
+        <!--配置后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--配置自定义的拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--<mvc:mapping path="/**"/>拦截所有路径-->
+            <mvc:mapping path="/**"/>
+            <bean class="com.zhao.oa.service.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>
